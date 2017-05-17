@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
+using FormatConfiguration.Model;
 
 namespace FormatConfiguration.Controllers
 {
@@ -11,16 +12,21 @@ namespace FormatConfiguration.Controllers
     {
         // GET api/values
         [HttpGet]
-        public IEnumerable<string> Get()
+        [Produces("application/xml")]
+        public List<Employee> Get()
         {
-            return new string[] { "value1", "value2" };
+            return new List<Employee> { new Employee { Id = 1, FirstName = "Omar", LastName = "Maher" },
+                                        new Employee { Id = 2, FirstName = "Ahmed", LastName = "Ali" }};
         }
 
         // GET api/values/5
         [HttpGet("{id}")]
-        public string Get(int id)
+        public Employee Get(int id)
         {
-            return "value";
+            var employees = new List<Employee> { new Employee { Id = 1, FirstName = "Omar", LastName = "Maher" },
+                                        new Employee { Id = 2, FirstName = "Ahmed", LastName = "Ali" }};
+
+            return employees.Where(e=>e.Id == id).Select(e=>e).FirstOrDefault();
         }
 
         // POST api/values
